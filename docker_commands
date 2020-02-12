@@ -1,0 +1,12 @@
+// build image
+docker build -t tour-of-heroes .
+
+// check to see if image was created
+docker images
+
+// start container
+docker run -p 8000:80 --name tour-of-heroes-container tour-of-heroes
+
+// check to see if container is running
+docker container ls
+
