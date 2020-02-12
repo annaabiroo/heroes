@@ -51,5 +51,25 @@ export class HeroService {
         catchError(this.handleError<any>('updateHero'))
       );
   }
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
+      catchError(this.handleError<Hero>('addHero'))
+    );
+  }
+  deleteHero(hero: Hero | number): Observable<Hero> {
+    const id = typeof hero === 'number' ? hero : hero.id;
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
+  }
+  searchHeroes(term: string): Observable<Hero[]>{
+    if (!term.trim()) {
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      catchError(this.handleError<Hero[]>('searchHeroes', []))
+    );
+  }
 
 }
